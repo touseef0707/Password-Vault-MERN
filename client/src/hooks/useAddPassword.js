@@ -1,51 +1,54 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 import { usePasswordContext } from '../context/PasswordContext';
-import { encryptPassword } from '../utils/encryption';
+import toast from 'react-hot-toast';
+import { useAuthContext } from '../context/AuthContext';
+import { encryptPassword } from '../utils/encrypt';
 
 const useAddPassword = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const { setPasswords } = usePasswordContext(); // Destructure setPasswords from context
+    const [success, setSuccess] = useState(false);
+    const { setPasswords } = usePasswordContext();
+    const {encryptionKey} = useAuthContext();
 
     const addPassword = async (formData) => {
         setIsLoading(true);
 
-        const encryptionKey = localStorage.getItem('encryption-key');
-        console.log('encryptionKey', encryptionKey);
-        const encryptedPassword = encryptPassword(encryptionKey, formData.password);
-        const encryptedFormData = {
+        if (!encryptionKey) {
+            toast.error('Please verify your encryption key');
+            setIsLoading(false);
+            return;
+        }
+        const encryptedData = {
             ...formData,
-            password: encryptedPassword,
+            password: encryptPassword(encryptionKey, formData.password),
         };
-
         try {
             const response = await fetch('/api/data/passwords', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: 'include', // Include credentials like cookies
-                body: JSON.stringify(encryptedFormData),
+                credentials: 'include', 
+                body: JSON.stringify(encryptedData),
             });
 
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error('Failed to add password');
             }
 
             const data = await response.json();
             toast.success(data.message);
-
-            // Update the context's password list with the new password
             setPasswords((prevPasswords) => [...prevPasswords, data.password]);
+            setSuccess(true);
 
-        } catch (err) {
-            toast.error(err.message);
+        } catch (error) {
+            toast.error(error.message);
         } finally {
             setIsLoading(false);
         }
     };
 
-    return { addPassword, isLoading };
+    return { addPassword, isLoading, success };
 };
 
 export default useAddPassword;

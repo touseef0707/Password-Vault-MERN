@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import useSignup from '../../hooks/useSignup';
-import GenerateKey from './key/GenerateKey';
 
 const Register = () => {
   const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
 
-  const [encryptionKey, setEncryptionKey] = useState('');
-  const [isKeyGenerated, setIsKeyGenerated] = useState(false);
-  const [isKeyDownloaded, setIsKeyDownloaded] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State for password visibility
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const { signup, loading } = useSignup();
+  const navigate = useNavigate();
 
   // Handle input change
   const handleChange = (e) => {
@@ -26,75 +27,93 @@ const Register = () => {
     });
   };
 
-  // Generate random key
-  const generateRandomKey = () => {
-    const array = new Uint8Array(75); // 75 random bytes
-    window.crypto.getRandomValues(array);
-    return Array.from(array, byte => byte.toString(36)).join('').substring(0, 100);
-  };
-
-  // Handle key generation
-  const handleGenerateKey = () => {
-    setEncryptionKey(generateRandomKey());
-    setIsKeyGenerated(true);
-    setIsKeyDownloaded(false); // Reset the download status when a new key is generated
-  };
-
-  // Copy key to clipboard
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(encryptionKey).then(() => {
-      alert('Key copied to clipboard!');
-    });
-  };
-
-  // Save key as a text file
-  const saveKeyAsFile = () => {
-    const blob = new Blob([encryptionKey], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'encryption-key.txt';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setIsKeyDownloaded(true);
-  };
-
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup({ ...formData, encryptionKey });  // Send formData and encryptionKey to the server
+
+    // Create the name variable by combining first and last name
+    const name = `${formData.firstName} ${formData.lastName}`;
+    const data = {
+      name,
+      email: formData.email,
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+    };
+
+    try {
+      // Send formData and name to the server
+      const response = await signup(data);
+
+      if (response.success) {
+        navigate('/verify-otp', { state: { email: formData.email } });
+      } else {
+        console.error('Signup failed:', response.message || 'An error occurred');
+      }
+    } catch (error) {
+      console.error('Signup request failed:', error);
+    }
   };
 
-  const isFormCompleted = formData.email && formData.password && formData.confirmPassword;
+  // Check if all fields are filled to enable the signup button
+  useEffect(() => {
+    const { firstName, lastName, email, password, confirmPassword } = formData;
+    if (firstName && lastName && email && password && confirmPassword) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [formData]);
 
   return (
-    <div className='h-full w-full p-6 flex-col justify-center items-center'>
-      <h2 className='text-2xl text-cyan-aqua-500 font-bold mb-4'>Register</h2>
+    <div className='h-full w-full px-6 flex-col justify-center items-center'>
+      <h2 className=' mb-3 text-2xl text-cyan-aqua-400 font-bold'>Register</h2>
       <form onSubmit={handleSubmit}>
-        <div className='mb-4'>
-          <input 
-            type='email' 
-            id='email' 
-            name='email' 
-            placeholder='example@gmail.com' 
-            className='w-full px-4 py-2 border rounded-lg' 
-            value={formData.email} 
-            onChange={handleChange} 
-            required 
+        <div className='mb-3 flex flex-row gap-3'>
+          <input
+            type='text'
+            id='firstName'
+            name='firstName'
+            placeholder='First Name'
+            className='w-full px-4 py-2 text-lg bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-aqua-400'
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type='text'
+            id='lastName'
+            name='lastName'
+            placeholder='Last Name'
+            className='w-full px-4 py-2 text-lg bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-aqua-400'
+            value={formData.lastName}
+            onChange={handleChange}
+            required
           />
         </div>
 
-        <div className='mb-4 relative'>
-          <input 
+        <div className='mb-3'>
+          <input
+            type='email'
+            id='email'
+            name='email'
+            placeholder='example@gmail.com'
+            className='w-full px-4 py-2 text-lg bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-aqua-400'
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className='mb-3 relative'>
+          <input
             type={showPassword ? 'text' : 'password'}
-            id='password' 
-            name='password' 
-            placeholder='password' 
-            className='w-full px-4 py-2 border rounded-lg' 
-            value={formData.password} 
-            onChange={handleChange} 
-            required 
+            id='password'
+            name='password'
+            placeholder='Password'
+            className='w-full px-4 py-2 text-lg bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-aqua-400'
+            value={formData.password}
+            onChange={handleChange}
+            required
           />
           <button
             type='button'
@@ -109,16 +128,16 @@ const Register = () => {
           </button>
         </div>
 
-        <div className='mb-4 relative'>
-          <input 
+        <div className='mb-3 relative'>
+          <input
             type={showConfirmPassword ? 'text' : 'password'}
-            id='cpassword' 
-            name='confirmPassword' 
-            placeholder='confirm password' 
-            className='w-full px-4 py-2 border rounded-lg' 
-            value={formData.confirmPassword} 
-            onChange={handleChange} 
-            required 
+            id='confirmPassword'
+            name='confirmPassword'
+            placeholder='Confirm Password'
+            className='w-full px-4 py-2 text-lg bg-gray-800 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-aqua-400'
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
           />
           <button
             type='button'
@@ -133,35 +152,13 @@ const Register = () => {
           </button>
         </div>
 
-        {!isKeyGenerated ? (
-          <button 
-            type='button' 
-            className={`w-full bg-cyan-aqua-700 text-white py-2 rounded-lg ${isFormCompleted ? '' : 'opacity-50 cursor-not-allowed'}`}
-            disabled={!isFormCompleted} 
-            onClick={handleGenerateKey}
-          >
-            Generate Key
-          </button>
-        ) : (
-          <GenerateKey 
-            encryptionKey={encryptionKey}
-            onCopy={copyToClipboard}
-            onSave={saveKeyAsFile}
-            onRegenerate={() => {
-              setEncryptionKey(generateRandomKey());
-              setIsKeyDownloaded(false); // Reset the download status when a new key is generated
-            }}
-          />
-        )}
-
-        <button 
-          type='submit' 
-          className={`w-full mt-4 bg-cyan-aqua-700 text-white py-2 rounded-lg ${!isKeyDownloaded || loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={!isKeyDownloaded || loading} 
+        <button
+          type='submit'
+          className={`w-full bg-cyan-aqua-700 hover:bg-cyan-aqua-600 text-white py-2 rounded-lg ${loading || isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={loading || isButtonDisabled}
         >
           {loading ? 'Signing up...' : 'Signup'}
         </button>
-
       </form>
     </div>
   );

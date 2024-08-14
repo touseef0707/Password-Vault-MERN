@@ -1,10 +1,8 @@
-// src/components/Navbar.jsx
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { HomeIcon, InformationCircleIcon, PhoneIcon, UserIcon } from '@heroicons/react/24/outline';
-import Logout from './Logout'; // Adjust the path as necessary
 import { useAuthContext } from '../../context/AuthContext';
+import Logout from './Logout';
 
 const Navbar = () => {
 
@@ -22,21 +20,21 @@ const Navbar = () => {
 
           <li>
             <Link className='flex items-center' to='home'>
-              <HomeIcon className='h-5 w-5 mr-1'/>
+              <HomeIcon className='h-5 w-5 mr-1' />
               <span>Home</span>
             </Link>
           </li>
 
           <li>
             <Link className='flex items-center' to="/about">
-              <InformationCircleIcon className='h-5 w-5 mr-1'/>
+              <InformationCircleIcon className='h-5 w-5 mr-1' />
               <span>About</span>
             </Link>
           </li>
 
           <li>
             <Link className='flex items-center' to="/contact">
-              <PhoneIcon className='h-5 w-5 mr-1'/>
+              <PhoneIcon className='h-5 w-5 mr-1' />
               <span>Contact</span>
             </Link>
           </li>

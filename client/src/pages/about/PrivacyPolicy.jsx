@@ -2,7 +2,7 @@ import React from 'react';
 
 const PrivacyPolicy = () => {
   return (
-    <div className="p-4 text-white bg-cyan-aqua-900 rounded-b-lg">
+    <div className="p-4 text-white">
       <p className="mb-4">
         Our privacy policy outlines how we collect, use, and protect your personal information. We are committed to safeguarding your privacy and ensuring that your data is handled securely and transparently.
       </p>

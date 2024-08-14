@@ -7,7 +7,6 @@ import CryptoJS from 'crypto-js';
  * @param {string} password - The password to encrypt.
  * @returns {string} - The encrypted password.
  */
-
 export const encryptPassword = (encryptionKey, password) => {
   return CryptoJS.AES.encrypt(password, encryptionKey).toString();
 };

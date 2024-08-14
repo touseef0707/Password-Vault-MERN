@@ -1,20 +1,25 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { useAuthContext } from '../context/AuthContext';
 import { usePasswordContext } from '../context/PasswordContext';
-import { encryptPassword } from '../utils/encryption';
+import { encryptPassword } from '../utils/encrypt';
 
 const useUpdatePassword = (id) => {
     const [isLoading, setIsLoading] = useState(false);
-    const { setPasswords, passwords } = usePasswordContext(); // Destructure passwords as well
+    const { setPasswords } = usePasswordContext();
+    const {encryptionKey} = useAuthContext();
 
     const updatePassword = async (formData) => {
         setIsLoading(true);
 
-        const encryptionKey = localStorage.getItem('encryption-key');
-        const encryptedPassword = encryptPassword(encryptionKey, formData.password);
-        const encryptedFormData = {
+        if (!encryptionKey) {
+            toast.error('Please verify your encryption key');
+            setIsLoading(false);
+            return;
+        }
+        const encryptedData = {
             ...formData,
-            password: encryptedPassword,
+            password: encryptPassword(encryptionKey, formData.password),
         };
 
         try {
@@ -23,14 +28,14 @@ const useUpdatePassword = (id) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(encryptedFormData),
+                body: JSON.stringify(encryptedData),
             });
 
             if (!response.ok) {
                 throw new Error('Failed to update password');
             }
 
-            const updatedPassword = await response.json(); // Assume the server returns the updated password
+            const updatedPassword = await response.json(); 
             toast.success(updatedPassword.message);
 
             // Update the context's password list
@@ -42,6 +47,7 @@ const useUpdatePassword = (id) => {
 
         } catch (err) {
             toast.error(err.message);
+
         } finally {
             setIsLoading(false);
         }

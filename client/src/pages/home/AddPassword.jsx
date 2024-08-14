@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import useAddPassword from '../../hooks/useAddPassword'; // Import the custom hook
-import { useAuthContext } from '../../context/AuthContext';
-import { encryptPassword } from '../../utils/encryption';
+import useAddPassword from '../../hooks/useAddPassword';
 
 const AddPassword = () => {
 
@@ -13,7 +11,7 @@ const AddPassword = () => {
     password: ''
   });
 
-  const { addPassword, isLoading } = useAddPassword(); // Destructure the hook
+  const { addPassword, isLoading } = useAddPassword();
 
   const handleChange = (e) => {
     setFormData({
@@ -24,8 +22,7 @@ const AddPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    await addPassword(formData); // Use the hook's function to add the password
+    await addPassword(formData);
   };
 
   const togglePasswordVisibility = () => {
@@ -34,8 +31,8 @@ const AddPassword = () => {
 
   return (
     <div className="pr-6">
-      <h2 className="text-2xl text-cyan-aqua-500 font-bold mb-4">Add Password</h2>
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+      <h2 className="text-2xl text-white font-bold mb-4">Add Password</h2>
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
         <input
           type="text"
           id="website"
@@ -81,7 +78,7 @@ const AddPassword = () => {
 
         <button
           type="submit"
-          className="w-full bg-cyan-aqua-700 text-white py-2 rounded-lg"
+          className="w-full bg-cyan-aqua-700 hover:bg-cyan-aqua-600 text-white py-2 rounded-lg"
           disabled={isLoading} // Disable the button when loading
         >
           {isLoading ? 'Adding...' : 'Add Password'}

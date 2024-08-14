@@ -2,7 +2,7 @@ import React from 'react';
 
 const TermsAndConditions = () => {
   return (
-    <div className="p-4 text-white bg-cyan-aqua-900 rounded-b-lg">
+    <div className="p-4 text-white">
       <p className="mb-4">
         By using our services, you agree to the terms and conditions outlined here. These terms govern your use of our services and are designed to ensure a safe and fair experience for all users.
       </p>

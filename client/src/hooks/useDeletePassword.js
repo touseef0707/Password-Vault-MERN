@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import toast from 'react-hot-toast';
 import { usePasswordContext } from '../context/PasswordContext';
+import toast from 'react-hot-toast';
 
 const useDeletePassword = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const { setPasswords } = usePasswordContext(); // Destructure setPasswords from context
+    const [success, setSuccess] = useState(false);
+    const { setPasswords } = usePasswordContext(); 
 
     const deletePassword = async (id) => {
         setIsLoading(true);
@@ -26,14 +27,16 @@ const useDeletePassword = () => {
                 prevPasswords.filter(password => password._id !== id)
             );
 
-        } catch (err) {
-            toast.error(err.message);
+            setSuccess(true);
+
+        } catch (error) {
+            toast.error(error.message);
         } finally {
             setIsLoading(false);
         }
     };
 
-    return { deletePassword, isLoading };
+    return { deletePassword, isLoading, success };
 };
 
 export default useDeletePassword;

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import useGetPasswords from '../hooks/useGetPasswords'; // Import the custom hook
+import useGetPasswords from '../hooks/useGetPasswords';
 
 export const PasswordContext = createContext();
 
@@ -8,11 +8,11 @@ export const usePasswordContext = () => {
 };
 
 export const PasswordProvider = ({ children }) => {
-    const { passwords, isLoading } = useGetPasswords(); // Destructure passwords and isLoading
+    const { passwords, isLoading } = useGetPasswords();
     const [passwordList, setPasswordList] = useState(passwords);
 
     useEffect(() => {
-        setPasswordList(passwords); // Update state when passwords change
+        setPasswordList(passwords);
     }, [passwords]);
 
     return (

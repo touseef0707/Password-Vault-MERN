@@ -41,9 +41,9 @@ const Contact = () => {
   };
 
   return (
-    <div className="h-full w-full flex items-center justify-center p-6 bg-cyan-aqua-400 text-white bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-lg shadow-black shadow-md">
-      <div className="w-full max-w-4xl">
-        <h1 className="text-3xl font-bold text-center mb-6">Contact</h1>
+    <div className="h-[352px] w-full p-6 flex items-center justify-center text-white bg-black bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-lg shadow-black shadow-md">
+      <div className="h-full w-full max-w-4xl">
+        <h1 className="text-3xl font-bold text-cyan-aqua-400 text-center mb-6">CONTACT</h1>
 
         {submitted ? (
           <div className="p-4 bg-green-800 rounded-lg text-center text-white">
@@ -53,7 +53,7 @@ const Contact = () => {
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-6">
             <div className="flex-1 flex flex-col gap-4">
-              {error && <p className="text-red-500 text-center">{error}</p>}
+              {error && <p className="text-red-950 text-center">{error}</p>}
               
               <input
                 type="text"
@@ -91,7 +91,7 @@ const Contact = () => {
               />
               <button
                 type="submit"
-                className="bg-cyan-aqua-700 text-white py-2 rounded-lg"
+                className="bg-cyan-aqua-700 hover:bg-cyan-aqua-600 text-white py-2 rounded-lg"
               >
                 Send Message
               </button>

@@ -1,4 +1,4 @@
-import Data from '../models/data.model.js'; // Import the Data model
+import Data from '../models/data.model.js'; 
 
 // Create a new password entry
 export const addPassword = async (req, res) => {
@@ -8,7 +8,7 @@ export const addPassword = async (req, res) => {
         console.log("body", req.body);
         // Create new password entry linked to the logged-in user
         const newPassword = new Data({
-            user: req.user._id, // Assuming req.user contains the authenticated user's info
+            user: req.user._id, 
             website: website,
             username: username,
             password: password,

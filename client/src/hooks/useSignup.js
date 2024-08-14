@@ -13,18 +13,15 @@ const useSignup = () => {
         // Step 1: Handle Input Errors
         const errors = handleInputErrors(data);
         if (Object.keys(errors).length > 0) {
-            // Display each error using toast
             Object.values(errors).forEach((error) => {
                 toast.error(error);
             });
-            return;  // Stop the function from continuing if there are errors
+            return;
         }
 
-        // Hitting API with try catch block
         try {
             setLoading(true);
 
-            // Hit API post
             const res = await fetch(`${HOST}/api/auth/signup`, {
                 method: 'POST',
                 headers: {
@@ -34,25 +31,18 @@ const useSignup = () => {
                 credentials: 'include'
             });
 
-            // Get result
             const result = await res.json();
 
-            // if result is OK
             if (res.ok) {
 
                 toast.success(result.message);
                 await delay(2000);
 
-                // Save user data in local storage
-                localStorage.setItem('auth-user', JSON.stringify(result));
-
-                // Set user data in context
-                setAuthUser(result);
-
+                localStorage.setItem('auth-user', JSON.stringify(result.user));
+                setAuthUser(result.user);
             }
             else {
                 toast.error(result.message);
-                console.log(result.error);
             }
 
 
@@ -61,7 +51,6 @@ const useSignup = () => {
 
         } finally {
             setLoading(false);
-
         }
     }
     return { signup, loading };
@@ -71,7 +60,7 @@ const useSignup = () => {
 function handleInputErrors(data) {
 
     // Destructure the data
-    const { email, password, confirmPassword } = data;
+    const { name, email, password, confirmPassword } = data;
     const errors = {};
 
     // Validate email

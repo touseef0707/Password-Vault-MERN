@@ -2,7 +2,7 @@ import React from 'react';
 
 const Architecture = () => {
   return (
-    <div className="p-4 text-white bg-cyan-aqua-900 rounded-b-lg">
+    <div className="p-4 text-white">
       <p className="mb-4">
         Zero-knowledge architecture is a security model where the service provider has no access to the user's data. In this architecture, all encryption and decryption processes occur on the client side, meaning only the user has access to the encryption keys.
       </p>

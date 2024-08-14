@@ -9,7 +9,6 @@ import CryptoJS from 'crypto-js';
  */
 export const decryptPassword = (encryptionKey, encryptedPassword) => {
     try {
-        
         // Decrypt the password
         const bytes = CryptoJS.AES.decrypt(encryptedPassword, encryptionKey);
         const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
@@ -25,4 +24,3 @@ export const decryptPassword = (encryptionKey, encryptedPassword) => {
         throw new Error('Decryption failed');
     }
 };
-

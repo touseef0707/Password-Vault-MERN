@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
-import Password from './Password';
 import { usePasswordContext } from '../../context/PasswordContext';
+import { useAuthContext } from '../../context/AuthContext';
+import { decryptPassword } from '../../utils/decrypt';
 import formatDate from '../../utils/formatTime';
-import { decryptPassword } from '../../utils/decryption';
 import GeneralModal from '../../components/modal/GeneralModal';
 import useDeletePassword from '../../hooks/useDeletePassword';
-import { encryptPassword } from '../../utils/encryption';
+import Password from './Password';
 
 const ViewVault = () => {
     const { passwords, isLoading } = usePasswordContext();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [passwordToDelete, setPasswordToDelete] = useState(null);
-
     const { deletePassword } = useDeletePassword();
-
-    const handleUpdate = (id) => {
-        console.log(`Update password with ID: ${id}`);
-        // Implement password update logic here
-    };
+    const { encryptionKey } = useAuthContext();
 
     const openModal = (id) => {
         setPasswordToDelete(id);
@@ -32,7 +27,7 @@ const ViewVault = () => {
     const confirmDelete = () => {
         if (passwordToDelete) {
             deletePassword(passwordToDelete);
-            closeModal(); // Close the modal after confirming deletion
+            closeModal();
         }
     };
 
@@ -40,15 +35,10 @@ const ViewVault = () => {
         openModal(id);
     };
 
-    const decrypt = (encryptedPassword) => {
-        const encryptionKey = localStorage.getItem('encryption-key');
-        return decryptPassword(encryptionKey, encryptedPassword);
-    };
-
 
     if (isLoading) {
         return (
-            <div className="flex justify-center items-center h-64">
+            <div className="h-64 w-full flex flex-col justify-center items-center">
                 <h2 className="text-xl text-gray-400">Loading...</h2>
             </div>
         );
@@ -56,24 +46,23 @@ const ViewVault = () => {
 
     if (passwords.length === 0) {
         return (
-            <div className="flex justify-center items-center h-64">
+            <div className="h-64 w-full flex flex-col justify-center items-center">
                 <h2 className="text-xl text-gray-400">Add passwords to view here</h2>
             </div>
         );
     }
 
     return (
-        <div className="pl-6">
-            <div className="max-h-72 overflow-auto scrollbar-custom pb-10">
+        <div className="pl-6 w-full h-64">
+            <div className="h-full overflow-auto scrollbar-custom">
                 {passwords.map((pwd) => (
                     <Password
                         key={pwd._id}
                         id={pwd._id}
                         website={pwd.website}
                         username={pwd.username}
-                        password={decrypt(pwd.password)}
+                        password={decryptPassword(encryptionKey, pwd.password)}
                         dateAdded={formatDate(pwd.updatedAt)}
-                        onUpdate={() => handleUpdate(pwd._id)}
                         onDelete={() => handleDelete(pwd._id)}
                     />
                 ))}

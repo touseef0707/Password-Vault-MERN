@@ -10,7 +10,7 @@ import cors from 'cors';
 const __dirname = path.resolve();
 dotenv.config();
 
-const PORT = process.env.PORT || 3000; 
+const PORT = process.env.PORT || 3000;
 
 const CORS = {
     origin: process.env.CLIENT_URL,
@@ -20,7 +20,7 @@ const CORS = {
 
 const app = express();
 app.use(cors(CORS));
-app.use(express.json()) // to parse the incoming request with JSON payloads
+app.use(express.json())
 app.use(cookieParser())
 
 // app.get('/', (req, res) => {
@@ -33,11 +33,10 @@ app.use('/api/auth', authRoutes)
 app.use('/api/data', dataRoutes)
 
 app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "client", "index.html"));
+    res.sendFile(path.join(__dirname, "client", "index.html"));
 });
 
 app.listen(PORT, async () => {
     await connectDB();
     console.log(`Server is up on http://localhost:${PORT}`);
 });
-

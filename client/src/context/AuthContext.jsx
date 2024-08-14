@@ -11,9 +11,9 @@ export const useAuthContext = () => {
 export const AuthProvider = ({ children }) => {
 
   const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('auth-user')) || null);
-
+  const [encryptionKey, setEncryptionKey] = useState(localStorage.getItem('encryption-key') || null);
   return (
-    <AuthContext.Provider value={{ authUser, setAuthUser }}>
+    <AuthContext.Provider value={{ authUser, setAuthUser, encryptionKey, setEncryptionKey }}>
       {children}
     </AuthContext.Provider>
   );

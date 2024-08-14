@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import useUpdatePassword from '../../hooks/useUpdatePassword'; // Import the custom hook
-import { encryptPassword } from '../../utils/encryption';
-import { usePasswordContext } from '../../context/PasswordContext';
+import useUpdatePassword from '../../hooks/useUpdatePassword'; 
 
 const UpdatePassword = ({id, currentPassword, website, username, onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,10 +9,8 @@ const UpdatePassword = ({id, currentPassword, website, username, onClose }) => {
     username: username || '',
     password: currentPassword || ''
   });
-  // const { setPasswords } = usePasswordContext();
   const { updatePassword, isLoading } = useUpdatePassword(id);
   
-  // use setPasswords when the password is updated
 
   const handleChange = (e) => {
     setFormData({
@@ -26,10 +22,9 @@ const UpdatePassword = ({id, currentPassword, website, username, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    await updatePassword(formData); // Use the hook's function to update the password
 
-    onClose(); // Close the modal after updating
+    await updatePassword(formData);
+    onClose();
   };
 
   const togglePasswordVisibility = () => {
@@ -49,7 +44,7 @@ const UpdatePassword = ({id, currentPassword, website, username, onClose }) => {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <h2 className="text-2xl text-cyan-aqua-500 font-bold mb-4">Update Password</h2>
+      <h2 className="text-2xl text-cyan-aqua-400 font-bold mb-4">Update Password</h2>
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-1">
           <input
@@ -100,8 +95,8 @@ const UpdatePassword = ({id, currentPassword, website, username, onClose }) => {
 
         <button
           type="submit"
-          className="w-full bg-cyan-aqua-700 text-white py-2 rounded-lg"
-          disabled={isLoading} // Disable the button when loading
+          className="w-full py-2 rounded-lg bg-cyan-aqua-700 hover:bg-cyan-aqua-600 text-white"
+          disabled={isLoading}
         >
           {isLoading ? 'Updating...' : 'Update Password'}
         </button>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/outline';
 import useLogout from '../../hooks/useLogout';
-import GeneralModal from '../modal/GeneralModal'; // Import the generalized modal
+import GeneralModal from '../modal/GeneralModal';
 
 const Logout = () => {
   const { Logout } = useLogout();

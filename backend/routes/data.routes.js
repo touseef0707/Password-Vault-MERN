@@ -18,7 +18,4 @@ router.put('/passwords/update/:id', protectRoute, updatePassword);
 // Delete Password
 router.delete('/passwords/delete/:id', protectRoute, deletePassword);
 
-
-
 export default router;
-
