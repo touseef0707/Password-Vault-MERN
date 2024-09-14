@@ -41,7 +41,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="h-[352px] w-full p-6 flex items-center justify-center text-white bg-black bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-lg shadow-black shadow-md">
+    <div className="h-[352px] w-full p-6 flex items-center justify-center text-white shadow-black shadow-md">
       <div className="h-full w-full max-w-4xl">
         <h1 className="text-3xl font-bold text-cyan-aqua-400 text-center mb-6">CONTACT</h1>
 
@@ -54,7 +54,7 @@ const Contact = () => {
           <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-6">
             <div className="flex-1 flex flex-col gap-4">
               {error && <p className="text-red-950 text-center">{error}</p>}
-              
+
               <input
                 type="text"
                 name="name"

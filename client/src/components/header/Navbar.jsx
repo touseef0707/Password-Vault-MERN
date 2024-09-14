@@ -10,7 +10,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className='bg-cyan-aqua-700 p-3 rounded-lg shadow-md shadow-black mb-4'>
+    <nav className='bar text-gray-100 p-3 rounded-lg shadow-md shadow-black mb-4'>
       <div className='flex flex-row justify-between items-center text-white'>
         <div className="nav-title flex flex-row">
           {/* <img src="" alt="logo.jpg" /> */}

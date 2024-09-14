@@ -60,8 +60,9 @@ const VerifyOtp = () => {
   };
 
   return (
-    <div className='h-[352px] w-full flex flex-col justify-center items-center gap-4 p-6 bg-black bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-lg shadow-black shadow-md'>
-      <h2 className='text-3xl font-bold text-cyan-aqua-400 mb-4'>Verify Email</h2>
+    <div className='h-[352px] w-full flex flex-col justify-center items-center gap-4 p-6 shadow-black shadow-md'>
+      <h2 className='text-3xl font-bold text-cyan-aqua-400 mb-4'>OTP Verification</h2>
+      <p className='text-xs'>Enter the One Time Password sent to the provided email</p>
 
       <div className='flex justify-center gap-2'>
         {otp.map((digit, index) => (

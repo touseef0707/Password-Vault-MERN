@@ -13,7 +13,7 @@ const About = () => {
   };
 
   return (
-    <div className="h-[352PX] w-full scrollbar-custom overflow-auto p-6 text-white bg-black bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-lg shadow-black shadow-md">
+    <div className="h-[352PX] w-full scrollbar-custom overflow-auto p-6 text-white shadow-black shadow-md">
       <div>
         <h1 className="text-3xl font-bold text-center text-cyan-aqua-400 mb-5">ABOUT</h1>
 

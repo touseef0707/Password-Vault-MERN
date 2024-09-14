@@ -28,7 +28,7 @@ const VerifyKey = () => {
   };
 
   return (
-    <div className='h-[352px] w-full flex flex-col justify-center items-center gap-4 p-6 bg-black bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-lg shadow-black shadow-md'>
+    <div className='h-[352px] w-full flex flex-col justify-center items-center gap-4 p-6 shadow-black shadow-md'>
       <h2 className='text-2xl font-bold text-white mb-4'>Verify Encryption Key</h2>
 
       <input

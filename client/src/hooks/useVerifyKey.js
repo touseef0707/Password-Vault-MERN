@@ -1,6 +1,7 @@
 // hooks/useVerifyHook.js
 import { useState } from 'react';
 import { useAuthContext } from '../context/AuthContext';
+import toast from 'react-hot-toast';
 
 const useVerifyKey = () => {
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ const useVerifyKey = () => {
 
         if (result) {
           setSuccess(true);
-          localStorage.setItem('encryption-key', encryptionKey); 
+          localStorage.setItem('encryption-key', encryptionKey);
           setEncryptionKey(encryptionKey)
           toast.success('Key verified successfully');
         } else {

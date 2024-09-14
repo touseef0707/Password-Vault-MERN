@@ -23,7 +23,7 @@ const Auth = () => {
   };
 
   return (
-    <div className='h-[352px] w-full flex flex-row justify-center items-center gap-2 pt-3 pb-6 px-6 bg-black bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-lg shadow-black shadow-md'>
+    <div className='h-[352px] w-full flex flex-row justify-center items-center gap-2 pt-3 pb-6 px-6 shadow-black shadow-md'>
       <div className={`h-full w-full transition-transform duration-1000 ${isLogin ? 'order-3' : 'order-1'}`}>
         {isLogin ? <Login /> : <Register />}
       </div>

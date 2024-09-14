@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
 
-const GeneralModal = ({ isOpen, onRequestClose, title, message, onConfirm }) => {
+const GeneralModal = ({ isOpen, onRequestClose, title, message, onConfirm, zIndex }) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -12,7 +12,7 @@ const GeneralModal = ({ isOpen, onRequestClose, title, message, onConfirm }) => 
       className="flex justify-center items-center inset-0 fixed bg-black bg-opacity-50"
       overlayClassName="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center"
     >
-      <div className="bg-black text-white p-5 rounded-lg shadow-lg text-center">
+      <div className={`bg-black text-white p-5 rounded-lg shadow-lg text-center`}>
         <h2 className="text-xl  font-semibold mb-4">{title}</h2>
         <p className="mb-4">{message}</p>
         <div className="flex justify-center space-x-4">

@@ -65,8 +65,8 @@ const GenerateKey = () => {
   };
 
   return (
-    <div className='h-[352px] w-full flex flex-col justify-center items-center gap-4 p-6 bg-blackbg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 rounded-lg shadow-black shadow-md'>
-      
+    <div className='h-[352px] w-full flex flex-col justify-center items-center gap-4 p-6 shadow-black shadow-md'>
+
       <h2 className='text-2xl text-cyan-aqua-500 font-bold mb-4'> Save Your Encryption Key Safely!!</h2>
 
       <div className='relative w-full'>

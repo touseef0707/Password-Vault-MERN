@@ -18,7 +18,7 @@ function App() {
           <Navbar />
         </header>
 
-        <main className="main">
+        <main className="main text-gray-200 rounded-lg">
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route path="/home" element={<Home />} />
